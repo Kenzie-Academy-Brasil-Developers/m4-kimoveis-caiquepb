@@ -4,7 +4,6 @@ import { TUsersRequest, TUsersResponse, TUsersResponseList, TUsersUpdate } from 
 import listUsersService from "../services/users/listUsers.service";
 import updateUsersService from "../services/users/updateUsers.service";
 import deleteUsersService from "../services/users/deleteUsers.service";
-import { AppError } from "../error";
 
 const createUsersController = async (request: Request, response: Response): Promise<Response> => {
     const userData: TUsersRequest = request.body;
@@ -25,7 +24,7 @@ const updateUsersController = async (request: Request, response: Response): Prom
 
     const userData: TUsersUpdate = request.body;
 
-    const users = await updateUsersService(userId, userData);
+    const users: TUsersResponse = await updateUsersService(userId, userData);
 
     return response.json(users);
 };
@@ -33,7 +32,7 @@ const updateUsersController = async (request: Request, response: Response): Prom
 const deleteUsersController = async (request: Request, response: Response): Promise<Response> => {
     const userId: number = Number(request.params.id);
 
-    const users = await deleteUsersService(userId);
+    const users: void = await deleteUsersService(userId);
 
     return response.status(204).send();
 };

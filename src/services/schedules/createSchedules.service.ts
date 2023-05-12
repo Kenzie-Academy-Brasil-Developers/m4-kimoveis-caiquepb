@@ -5,7 +5,6 @@ import { AppError } from "../../error";
 import { TUsers } from "../../interfaces/users.interface";
 import { TRealEstate } from "../../interfaces/realEstates.interface";
 import { TIsScheduleValid, TSchedulesRequest, TSchedulesResponse } from "../../interfaces/schedules.interface";
-import { scheduleResponseSchema } from "../../schemas/schedules.schemas";
 
 const createSchedulesService = async (schedulesData: TSchedulesRequest, id: number): Promise<any> => {
     const userRepository: Repository<User> = AppDataSource.getRepository(User);
@@ -23,8 +22,8 @@ const createSchedulesService = async (schedulesData: TSchedulesRequest, id: numb
     const ensureUserScheduleIsValid: TIsScheduleValid | null = await schedulesRepository
         .createQueryBuilder("schedules")
         .where("schedules.userId = :userId", { userId: id })
-        .andWhere("schedules.hour = :hour", { hour: schedulesData.hour })
         .andWhere("schedules.date = :date", { date: schedulesData.date })
+        .andWhere("schedules.hour = :hour", { hour: schedulesData.hour })
         .getOne();
 
     if (ensureUserScheduleIsValid) throw new AppError("User schedule to this real estate at this date and time already exists", 409);
@@ -32,8 +31,8 @@ const createSchedulesService = async (schedulesData: TSchedulesRequest, id: numb
     const ensureScheduleIsValid: TIsScheduleValid | null = await schedulesRepository
         .createQueryBuilder("schedules")
         .where("schedules.realEstateId = :realEstateId", { realEstateId: schedulesData.realEstateId })
-        .andWhere("schedules.hour = :hour", { hour: schedulesData.hour })
         .andWhere("schedules.date = :date", { date: schedulesData.date })
+        .andWhere("schedules.hour = :hour", { hour: schedulesData.hour })
         .getOne();
 
     if (ensureScheduleIsValid) throw new AppError("Schedule to this real estate at this date and time already exists", 409);
