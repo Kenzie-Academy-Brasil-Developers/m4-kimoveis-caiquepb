@@ -4,6 +4,7 @@ import { TUsersRequest, TUsersResponse, TUsersResponseList, TUsersUpdate } from 
 import listUsersService from "../services/users/listUsers.service";
 import updateUsersService from "../services/users/updateUsers.service";
 import deleteUsersService from "../services/users/deleteUsers.service";
+import { AppError } from "../error";
 
 const createUsersController = async (request: Request, response: Response): Promise<Response> => {
     const userData: TUsersRequest = request.body;
@@ -20,7 +21,14 @@ const listUsersController = async (request: Request, response: Response): Promis
 };
 
 const updateUsersController = async (request: Request, response: Response): Promise<Response> => {
+    const admin: boolean = response.locals.user.admin;
+    const id: number = Number(response.locals.user.id);
+
     const userId: number = Number(request.params.id);
+
+    if (!admin && id !== userId) {
+        throw new AppError("Insufficient permission", 403);
+    }
 
     const userData: TUsersUpdate = request.body;
 
