@@ -6,7 +6,7 @@ import { TUsers } from "../../interfaces/users.interface";
 import { TRealEstate } from "../../interfaces/realEstates.interface";
 import { TIsScheduleValid, TSchedulesRequest, TSchedulesResponse } from "../../interfaces/schedules.interface";
 
-const createSchedulesService = async (schedulesData: TSchedulesRequest, id: number): Promise<any> => {
+const createSchedulesService = async (schedulesData: TSchedulesRequest, id: number): Promise<TSchedulesResponse> => {
     const userRepository: Repository<User> = AppDataSource.getRepository(User);
     const userId: TUsers | null = await userRepository.findOneBy({ id: id });
 

@@ -1,13 +1,13 @@
 import { Repository } from "typeorm";
 import { User } from "../../entities";
 import { AppDataSource } from "../../data-source";
-import { TLoginRequest, TLoginResponse } from "../../interfaces/login.interface";
+import { TLoginRequest } from "../../interfaces/login.interface";
 import { AppError } from "../../error";
 import * as bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
-const loginService = async (loginData: TLoginRequest): Promise<TLoginResponse> => {
+const loginService = async (loginData: TLoginRequest): Promise<string> => {
     const userRepository: Repository<User> = AppDataSource.getRepository(User);
 
     const user: User | null = await userRepository.findOneBy({ email: loginData.email });
@@ -22,7 +22,7 @@ const loginService = async (loginData: TLoginRequest): Promise<TLoginResponse> =
         throw new AppError("Invalid credentials", 401);
     }
 
-    const token: TLoginResponse = jwt.sign(
+    const token: string = jwt.sign(
         {
             id: user.id,
             admin: user.admin,

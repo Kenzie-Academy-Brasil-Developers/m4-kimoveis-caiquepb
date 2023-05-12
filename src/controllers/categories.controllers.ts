@@ -19,11 +19,11 @@ const listCategoriesController = async (request: Request, response: Response): P
 };
 
 const listRealEstateByCategoryController = async (request: Request, response: Response): Promise<Response> => {
-    const categoryId: number = Number(request.params.id)
+    const categoryId: number = Number(request.params.id);
 
-    const realEstates = await listRealEstateByCategoryService(categoryId);
+    const realEstates: TCategories | null = await listRealEstateByCategoryService(categoryId);
 
     return response.json(realEstates);
 };
 
-export { createCategoriesController, listCategoriesController, listRealEstateByCategoryController};
+export { createCategoriesController, listCategoriesController, listRealEstateByCategoryController };

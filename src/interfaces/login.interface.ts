@@ -1,7 +1,6 @@
 import { z } from "zod";
-import { loginSchemaRequest, loginSchemaResponse } from "../schemas/login.schemas";
+import { loginRequestSchema } from "../schemas/login.schemas";
 
-type TLoginRequest = z.infer<typeof loginSchemaRequest>;
-type TLoginResponse = z.infer<typeof loginSchemaResponse>;
+type TLoginRequest = z.infer<typeof loginRequestSchema>;
 
-export { TLoginRequest, TLoginResponse };
+export { TLoginRequest };

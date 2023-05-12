@@ -4,7 +4,7 @@ import { AppDataSource } from "../../data-source";
 import { AppError } from "../../error";
 import { TRealEstate } from "../../interfaces/realEstates.interface";
 
-const listSchedulesService = async (id: number) => {
+const listSchedulesService = async (id: number): Promise<TRealEstate> => {
     const realEstatesRepository: Repository<RealEstate> = AppDataSource.getRepository(RealEstate);
 
     const schedules: TRealEstate | null = await realEstatesRepository.findOne({
